@@ -26,10 +26,18 @@ function App() {
   )
 }
 
+const notificationSelector = selector({
+  key: 'notificationCount Selector',
+  get: ({get})=>{
+    const notificationAtomValue = get(notificationAtom)
+    const networkAtomValue = get(networkAtom)
+    return networkAtomValue+notificationAtomValue.jobs+notificationAtomValue.messaging+notificationAtomValue.notifications
+  }
+})
+
 function Navbar() {
 
   const [notificationState, setNotificationState] = useRecoilState(notificationAtom)
-  const notificationCount = notificationState.jobs+notificationState.messaging+notificationState.notifications
   return (
     <div>
       <button className='px-3 py-1.5 bg-blue-600 rounded-md mr-2'>Home</button>
@@ -37,8 +45,7 @@ function Navbar() {
       <button onClick={()=>setNotificationState(prev=>({...prev, jobs: prev.jobs+1}))} className='px-3 py-1.5 bg-blue-600 rounded-md mr-2'>Jobs ({notificationState.jobs})</button>
       <button onClick={()=>setNotificationState(prev=>({...prev, messaging: prev.messaging+1}))} className='px-3 py-1.5 bg-blue-600 rounded-md mr-2'>Messaging ({notificationState.messaging})</button>
       <button onClick={()=>setNotificationState(prev=>({...prev, notifications: prev.notifications+1}))} className='px-3 py-1.5 bg-blue-600 rounded-md mr-2'>Notifications ({notificationState.notifications})</button>
-
-      <button className='px-3 py-1.5 bg-blue-600 rounded-md mr-2'>Me [{notificationCount}]</button>
+      <MeButton />
     </div>
   )
 }
@@ -53,6 +60,15 @@ function NetworkButton() {
       className="px-3 py-1.5 bg-blue-600 rounded-md mr-2"
     >
       My Network ({networkCount})
+    </button>
+  );
+}
+function MeButton() {
+  const notificationCount = useRecoilValue(notificationSelector); // ✅ Move selector usage here
+
+  return (
+    <button className="px-3 py-1.5 bg-blue-600 rounded-md mr-2">
+      Me [{notificationCount}]
     </button>
   );
 }
