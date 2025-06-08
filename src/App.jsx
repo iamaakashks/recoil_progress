@@ -42,7 +42,7 @@ function Navbar() {
     <div>
       <button className='px-3 py-1.5 bg-blue-600 rounded-md mr-2'>Home</button>
       <NetworkButton />
-      <button onClick={()=>setNotificationState(prev=>({...prev, jobs: prev.jobs+1}))} className='px-3 py-1.5 bg-blue-600 rounded-md mr-2'>Jobs ({notificationState.jobs})</button>
+      <button onClick={()=>setNotificationState(prev=>({...prev, jobs: prev.jobs+1}))} className='px-3 py-1.5 bg-blue-600 rounded-md mr-2'>Jobs {notificationState.jobs ? `(${(notificationState.jobs>9 ? "9+" :notificationState.jobs)})` :null}</button>
       <button onClick={()=>setNotificationState(prev=>({...prev, messaging: prev.messaging+1}))} className='px-3 py-1.5 bg-blue-600 rounded-md mr-2'>Messaging ({notificationState.messaging})</button>
       <button onClick={()=>setNotificationState(prev=>({...prev, notifications: prev.notifications+1}))} className='px-3 py-1.5 bg-blue-600 rounded-md mr-2'>Notifications ({notificationState.notifications})</button>
       <MeButton />
